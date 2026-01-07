@@ -1,5 +1,5 @@
 const express = require('express')
-const Lead = require('../models/Lead')
+const Lead = require('../functions/models/Lead')
 const router = express.Router()
 
 // CADASTRO

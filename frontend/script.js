@@ -1,4 +1,4 @@
-const API = 'https://api.welon.com.br/api/lead'
+const API = '/.netlify/functions/create-lead'
 let cpfGlobal = ''
 
 document.getElementById('acceptTerms').addEventListener('change', e => {
