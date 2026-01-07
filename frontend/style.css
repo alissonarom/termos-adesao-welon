@@ -81,6 +81,27 @@ input::placeholder {
   color: #cdd9f5;
 }
 
+.terms-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.terms-checkbox input {
+  flex-shrink: 0;
+}
+
+.terms-checkbox span {
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .terms-checkbox span {
+    white-space: normal;
+  }
+}
+
 button {
   background: linear-gradient(135deg, #4da3ff, #7bbcff);
   color: #062a5e;
