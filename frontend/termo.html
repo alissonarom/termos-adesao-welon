@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" href="./assets/favicon-57x57.png" sizes="57x57">
+	<link rel="apple-touch-icon" href="./assets/genfavicon-180.png">
+    <meta name="msapplication-TileImage" content="./assets/genfavicon-256.png">
+    <meta charset="UTF-8" />
+    <title>Termo de Adesão | Welon</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body class="welon">
+
+    <header class="welon-header">
+        <img src="./assets/logomarca.png" alt="Welon" />
+    </header>
+
+<main class="welon-container">
+
+  <!-- PROGRESS -->
+  <div class="progress">
+    <div class="step active">Cadastro</div>
+    <div class="step">Termo</div>
+    <div class="step">Sucesso</div>
+  </div>
+
+  <!-- ETAPA 1 -->
+  <section id="step-1">
+    <h2>Cadastro</h2>
+    <input id="name" placeholder="Nome ou Razão Social" />
+    <input id="cpfCnpj" placeholder="CPF ou CNPJ" />
+    <input id="email" placeholder="Email" />
+    <button onclick="register()">Cadastrar</button>
+  </section>
+
+  <!-- ETAPA 2 -->
+  <section id="step-2" hidden>
+    <h2>Termo de Adesão</h2>
+    <div class="terms">
+      <!-- COLE O TEXTO DO PDF AQUI -->
+      <p>TERMO DE ADESÃO E REGULAMENTO DO ECOSSISTEMA WELON...</p>
+    </div>
+    <label>
+      <input type="checkbox" id="acceptTerms" />
+      Li e aceito os termos
+    </label>
+    <button id="acceptBtn" disabled onclick="accept()">Avançar</button>
+  </section>
+
+  <!-- ETAPA 3 -->
+  <section id="step-3" hidden>
+    <h2>Cadastro concluído</h2>
+    <p>Seu cadastro e aceite foram realizados com sucesso.</p>
+    <button id="checkoutBtn" onclick="checkout()">Ir para pagamento</button>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+:root {
+  --bg-primary: #062a5e;
+  --bg-secondary: #0b3b84;
+  --bg-card: #0f4aa2;
+
+  --text-primary: #ffffff;
+  --text-secondary: #cdd9f5;
+
+  --accent: #4da3ff;
+  --border-soft: rgba(255,255,255,0.15);
+}
+
+
+body.welon {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #062a5e, #0b3b84);
+  color: var(--text-primary);
+}
+
+/* HEADER */
+.welon-header {
+  padding: 0 48px;
+}
+
+.welon-header img {
+  height: 100px;
+}
+
+/* CONTAINER */
+.welon-container {
+  max-width: 960px;
+  padding: 40px;
+}
+
+/* PROGRESS */
+.progress {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 48px;
+}
+
+.step {
+  flex: 1;
+  padding: 14px;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.08);
+  color: var(--text-secondary);
+  text-align: center;
+  font-weight: 500;
+}
+
+.step.active {
+  background: linear-gradient(135deg, #4da3ff, #7bbcff);
+  color: #062a5e;
+}
+
+/* ETAPAS */
+section {
+  background: rgba(255,255,255,0.06);
+  border-radius: 12px;
+  padding: 40px;
+}
+
+h2 {
+  font-size: 32px;
+  margin-bottom: 24px;
+}
+
+input {
+  width: 100%;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid var(--border-soft);
+  padding: 14px;
+  border-radius: 6px;
+  color: white;
+  margin-bottom: 16px;
+}
+
+input::placeholder {
+  color: #cdd9f5;
+}
+
+button {
+  background: linear-gradient(135deg, #4da3ff, #7bbcff);
+  color: #062a5e;
+  border: none;
+  padding: 16px;
+  width: 100%;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* TERMO */
+.terms {
+  max-height: 280px;
+  overflow-y: auto;
+  border: 1px solid var(--border-soft);
+  padding: 24px;
+  margin-bottom: 24px;
+  background: rgba(0,0,0,0.15);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .welon-container {
+    padding: 24px;
+  }
+
+  section {
+    padding: 24px;
+  }
+
+  h2 {
+    font-size: 24px;
+  }
+}
