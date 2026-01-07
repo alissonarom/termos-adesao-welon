@@ -143,3 +143,38 @@ button:disabled {
     font-size: 24px;
   }
 }
+
+.termo-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px;
+  font-family: Inter, Arial, sans-serif;
+  color: #222;
+  line-height: 1.7;
+}
+
+.termo-content h2 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+.termo-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+
+.termo-content p {
+  margin-bottom: 16px;
+}
+
+.termo-content ul {
+  margin: 16px 0 16px 20px;
+}
+
+.termo-content li {
+  margin-bottom: 8px;
+}
+
