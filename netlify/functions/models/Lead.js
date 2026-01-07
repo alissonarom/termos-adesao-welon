@@ -13,5 +13,6 @@ const LeadSchema = new mongoose.Schema({
   isPaid: { type: Boolean, default: false }
 })
 
-module.exports =
-  mongoose.models.Lead || mongoose.model('Lead', LeadSchema)
+  module.exports =
+  mongoose.models.Cliente ||
+  mongoose.model('Cliente', LeadSchema, 'clientes')
