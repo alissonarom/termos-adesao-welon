@@ -1,0 +1,14 @@
+# Dependências
+/node_modules
+
+# Variáveis de Ambiente e Arquivos Secretos
+.env
+.env.*
+!.env.example # Permite o envio de um arquivo de exemplo sem dados sensíveis
+
+# Logs e Cache
+npm-debug.log*
+yarn-error.log*
+.DS_Store
+dist
+build
