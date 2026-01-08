@@ -174,14 +174,19 @@ const cpfCnpjInput = document.getElementById('cpfCnpj')
 cpfCnpjInput.addEventListener('input', e => {
   let value = e.target.value.replace(/\D/g, '')
 
+  // Limite duro de caracteres
+  if (value.length > 14) {
+    value = value.slice(0, 14)
+  }
+
   if (value.length <= 11) {
-    // CPF: 000.000.000-00
+    // CPF
     value = value
       .replace(/(\d{3})(\d)/, '$1.$2')
       .replace(/(\d{3})(\d)/, '$1.$2')
       .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
   } else {
-    // CNPJ: 00.000.000/0000-00
+    // CNPJ
     value = value
       .replace(/^(\d{2})(\d)/, '$1.$2')
       .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
@@ -191,6 +196,7 @@ cpfCnpjInput.addEventListener('input', e => {
 
   e.target.value = value
 })
+
 
 function isValidCPF(cpf) {
   cpf = cpf.replace(/\D/g, '')

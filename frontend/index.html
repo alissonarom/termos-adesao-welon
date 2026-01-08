@@ -30,7 +30,12 @@
   <section id="step-1">
     <h2>Complete seu cadastro</h2>
     <input id="name" placeholder="Nome ou Razão Social" />
-    <input id="cpfCnpj" placeholder="CPF ou CNPJ" />
+    <input
+      id="cpfCnpj"
+      inputmode="numeric"
+      autocomplete="off"
+      placeholder="CPF ou CNPJ"
+    />
     <input id="email" placeholder="Email" />
     <button id="registerBtn" onclick="register()">Cadastrar</button>
   </section>
