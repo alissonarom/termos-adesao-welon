@@ -147,37 +147,6 @@ async function acceptTerms() {
   }
 }
 
-async function goToCheckout() {
-  const btn = document.getElementById('checkoutBtn')
-  setLoading(btn, true, 'Redirecionando...')
-
-  try {
-    const res = await fetch(API.checkout, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cpfCnpj: cpfGlobal })
-    })
-
-    const data = await res.json()
-    console.log('Checkout click response:', data)
-
-    if (!res.ok) {
-      throw new Error('Erro no endpoint de checkout')
-    }
-
-    // 🔴 PAUSA INTENCIONAL PARA DEBUG
-    setTimeout(() => {
-      window.location.href =
-        'https://invoice.infinitepay.io/plans/wb-welon/lSh1kjPZb'
-    }, 1500)
-
-  } catch (err) {
-    console.error(err)
-    alert('Erro ao registrar clique.')
-    setLoading(btn, false)
-  }
-}
-
 const cpfCnpjInput = document.getElementById('cpfCnpj')
 
 cpfCnpjInput.addEventListener('input', e => {

@@ -1,47 +1,63 @@
 const connect = require('./db')
 const Lead = require('./models/Lead')
-const sendWelcomeMail = require('./services/sendWelcomeMail')
+const sendWelcomeEmail = require('./sendWelcomeEmail')
 
 exports.handler = async event => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405 }
   }
 
-  await connect()
+  try {
+    await connect()
 
-  const { cpfCnpj } = JSON.parse(event.body)
+    const { cpfCnpj } = JSON.parse(event.body)
 
-  const lead = await Lead.findOne({ cpfCnpj })
-
-  if (!lead) {
-    return {
-      statusCode: 404,
-      body: JSON.stringify({ error: 'Lead não encontrado' })
+    if (!cpfCnpj) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'cpfCnpj é obrigatório' })
+      }
     }
-  }
 
-  // Atualiza aceite
-  lead.acceptedTerms = true
-  lead.acceptedAt = new Date()
+    const lead = await Lead.findOneAndUpdate(
+      { cpfCnpj },
+      {
+        acceptedTerms: true,
+        acceptedAt: new Date(),
+        isSendMail: true
+      },
+      { new: true }
+    )
 
-  // Envia email apenas uma vez
-  if (!lead.isSendMail) {
-    await sendWelcomeMail({
-      name: lead.name,
-      email: lead.email
+    if (!lead) {
+      return {
+        statusCode: 404,
+        body: JSON.stringify({ error: 'Lead não encontrado' })
+      }
+    }
+
+    // 🔥 RESPONDE PRIMEIRO
+    const response = {
+      statusCode: 200,
+      body: JSON.stringify({
+        success: true,
+        name: lead.name,
+        email: lead.email
+      })
+    }
+
+    // ✉️ EMAIL EM SEGUNDO PLANO (não quebra UX)
+    sendWelcomeEmail(lead).catch(err => {
+      console.error('Erro ao enviar email:', err)
     })
 
-    lead.isSendMail = true
-    lead.sendMailAt = new Date()
-  }
+    return response
 
-  await lead.save()
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify({
-      success: true,
-      isSendMail: lead.isSendMail
-    })
+  } catch (err) {
+    console.error(err)
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'Erro interno ao salvar aceite' })
+    }
   }
 }
