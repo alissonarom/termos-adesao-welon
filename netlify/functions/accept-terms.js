@@ -1,6 +1,6 @@
 const connect = require('./db')
 const Lead = require('./models/Lead')
-const sendWelcomeEmail = require('./sendWelcomeEmail')
+const sendWelcomeEmail = require('./services/sendWelcomeMail')
 
 exports.handler = async event => {
   if (event.httpMethod !== 'POST') {
