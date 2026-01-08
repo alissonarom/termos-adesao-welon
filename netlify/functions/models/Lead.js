@@ -10,7 +10,8 @@ const LeadSchema = new mongoose.Schema({
   acceptedAt: Date,
 
   isSendMail: { type: Boolean, default: false },
-  sendMailAt: Date
+  mailSentAt: Date,
+  mailError: String
 })
 
   module.exports =

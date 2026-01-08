@@ -19,15 +19,7 @@ exports.handler = async event => {
       }
     }
 
-    const lead = await Lead.findOneAndUpdate(
-      { cpfCnpj },
-      {
-        acceptedTerms: true,
-        acceptedAt: new Date(),
-        isSendMail: true
-      },
-      { new: true }
-    )
+    const lead = await Lead.findOne({ cpfCnpj })
 
     if (!lead) {
       return {
@@ -36,7 +28,12 @@ exports.handler = async event => {
       }
     }
 
-    // 🔥 RESPONDE PRIMEIRO
+    // Atualiza aceite
+    lead.acceptedTerms = true
+    lead.acceptedAt = new Date()
+    await lead.save()
+
+    // 🔥 RESPONDE IMEDIATAMENTE (UX)
     const response = {
       statusCode: 200,
       body: JSON.stringify({
@@ -46,15 +43,26 @@ exports.handler = async event => {
       })
     }
 
-    // ✉️ EMAIL EM SEGUNDO PLANO (não quebra UX)
-    sendWelcomeEmail(lead).catch(err => {
-      console.error('Erro ao enviar email:', err)
-    })
+    // ✉️ EMAIL CONTROLADO
+    if (!lead.isSendMail) {
+      sendWelcomeEmail(lead)
+        .then(async () => {
+          lead.isSendMail = true
+          lead.mailSentAt = new Date()
+          lead.mailError = null
+          await lead.save()
+        })
+        .catch(async err => {
+          console.error('Erro ao enviar email:', err.message)
+          lead.mailError = err.message
+          await lead.save()
+        })
+    }
 
     return response
 
   } catch (err) {
-    console.error(err)
+    console.error('Erro interno:', err)
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Erro interno ao salvar aceite' })
