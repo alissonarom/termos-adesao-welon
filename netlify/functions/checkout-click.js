@@ -19,7 +19,7 @@ exports.handler = async event => {
 
   const result = await Lead.findOneAndUpdate(
     { cpfCnpj },
-    { checkoutClickedAt: new Date() },
+    { checkoutClickedAt: new Date(), isPaid: true },
     { new: true }
   )
 
