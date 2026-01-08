@@ -44,13 +44,13 @@ async function accept() {
   setStep(3)
 }
 
-async function checkout() {
-  await fetch(`${API}/checkout-click`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ cpfCnpj: cpfGlobal })
-  })
+await fetch('/.netlify/functions/checkout-click', {
+  method: 'POST',
+  body: JSON.stringify({ cpfCnpj })
+})
 
   window.location.href =
     'https://invoice.infinitepay.io/plans/wb-welon/lSh1kjPZb'
-}
+    
+document.getElementById('welcomeName').innerText =
+  `Olá, ${response.name}`

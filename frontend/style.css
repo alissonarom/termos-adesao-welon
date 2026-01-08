@@ -68,11 +68,13 @@ h2 {
 }
 
 input {
+  width: 100%;
   background: rgba(255,255,255,0.1);
   border: 1px solid var(--border-soft);
   padding: 14px;
   border-radius: 6px;
   color: white;
+  margin-bottom: 16px;
 }
 
 input::placeholder {
@@ -179,3 +181,8 @@ button:disabled {
   margin-bottom: 8px;
 }
 
+.welcome-title {
+  margin-bottom: 16px;
+  font-size: 22px;
+  font-weight: 600;
+}
