@@ -1,4 +1,8 @@
-const API = '/.netlify/functions/create-lead'
+const API = {
+  createLead: '/.netlify/functions/create-lead',
+  acceptTerms: '/.netlify/functions/accept-terms',
+  checkout: '/.netlify/functions/checkout-click'
+}
 let cpfGlobal = ''
 
 const acceptCheckbox = document.getElementById('acceptTerms')
@@ -51,8 +55,6 @@ function setStep(step) {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-
-
 async function register() {
   const btn = document.getElementById('registerBtn')
   setLoading(btn, true, 'Cadastrando...')
@@ -62,7 +64,7 @@ async function register() {
     const emailValue = document.getElementById('email').value
     cpfGlobal = document.getElementById('cpfCnpj').value
 
-    const res = await fetch(API, {
+    const res = await fetch(API.createLead, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -93,7 +95,7 @@ async function acceptTerms() {
   setLoading(btn, true, 'Salvando aceite...')
 
   try {
-    await fetch(`${API}/accept`, {
+    await fetch(API.acceptTerms, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ cpfCnpj: cpfGlobal })
@@ -113,7 +115,7 @@ async function goToCheckout() {
   setLoading(btn, true, 'Redirecionando...')
 
   try {
-    await fetch('/.netlify/functions/checkout-click', {
+    await fetch(API.checkout, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ cpfCnpj: cpfGlobal })
