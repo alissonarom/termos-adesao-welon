@@ -57,6 +57,34 @@ function setStep(step) {
 
 async function register() {
   const btn = document.getElementById('registerBtn')
+  const name = document.getElementById('name').value.trim()
+  const email = document.getElementById('email').value.trim()
+  const cpfCnpjRaw = document.getElementById('cpfCnpj').value
+  const cpfCnpj = cpfCnpjRaw.replace(/\D/g, '')
+
+  // VALIDAÇÕES
+  if (!isValidName(name)) {
+    alert('Informe um nome válido.')
+    return
+  }
+
+  if (!isValidEmail(email)) {
+    alert('Informe um e-mail válido.')
+    return
+  }
+
+  if (cpfCnpj.length <= 11) {
+    if (!isValidCPF(cpfCnpj)) {
+      alert('CPF inválido.')
+      return
+    }
+  } else {
+    if (!isValidCNPJ(cpfCnpj)) {
+      alert('CNPJ inválido.')
+      return
+    }
+  }
+
   setLoading(btn, true, 'Cadastrando...')
 
   try {
@@ -139,5 +167,90 @@ async function goToCheckout() {
     alert('Erro ao registrar clique.')
     setLoading(btn, false)
   }
+}
+
+const cpfCnpjInput = document.getElementById('cpfCnpj')
+
+cpfCnpjInput.addEventListener('input', e => {
+  let value = e.target.value.replace(/\D/g, '')
+
+  if (value.length <= 11) {
+    // CPF: 000.000.000-00
+    value = value
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+  } else {
+    // CNPJ: 00.000.000/0000-00
+    value = value
+      .replace(/^(\d{2})(\d)/, '$1.$2')
+      .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
+      .replace(/\.(\d{3})(\d)/, '.$1/$2')
+      .replace(/(\d{4})(\d)/, '$1-$2')
+  }
+
+  e.target.value = value
+})
+
+function isValidCPF(cpf) {
+  cpf = cpf.replace(/\D/g, '')
+  if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false
+
+  let sum = 0
+  for (let i = 0; i < 9; i++) sum += cpf[i] * (10 - i)
+  let d1 = (sum * 10) % 11
+  if (d1 === 10) d1 = 0
+  if (d1 != cpf[9]) return false
+
+  sum = 0
+  for (let i = 0; i < 10; i++) sum += cpf[i] * (11 - i)
+  let d2 = (sum * 10) % 11
+  if (d2 === 10) d2 = 0
+
+  return d2 == cpf[10]
+}
+
+function isValidCNPJ(cnpj) {
+  cnpj = cnpj.replace(/\D/g, '')
+  if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false
+
+  let length = cnpj.length - 2
+  let numbers = cnpj.substring(0, length)
+  let digits = cnpj.substring(length)
+  let sum = 0
+  let pos = length - 7
+
+  for (let i = length; i >= 1; i--) {
+    sum += numbers[length - i] * pos--
+    if (pos < 2) pos = 9
+  }
+
+  let result = sum % 11 < 2 ? 0 : 11 - (sum % 11)
+  if (result != digits[0]) return false
+
+  length++
+  numbers = cnpj.substring(0, length)
+  sum = 0
+  pos = length - 7
+
+  for (let i = length; i >= 1; i--) {
+    sum += numbers[length - i] * pos--
+    if (pos < 2) pos = 9
+  }
+
+  result = sum % 11 < 2 ? 0 : 11 - (sum % 11)
+  return result == digits[1]
+}
+
+function isValidName(name) {
+  if (!name) return false
+  name = name.trim()
+  if (name.length < 3) return false
+  if (!/[a-zA-ZÀ-ÿ]{2,}/.test(name)) return false
+  return true
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
