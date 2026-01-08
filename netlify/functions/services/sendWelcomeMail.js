@@ -7,13 +7,17 @@ const transporter = nodemailer.createTransport({
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
-  }
+  },
+  connectionTimeout: 10_000,
+  greetingTimeout: 10_000,
+  socketTimeout: 10_000
 })
 
+
 module.exports = async ({ name, email }) => {
-  return transporter.sendMail({
+  const info = await transporter.sendMail({
     from: '"Ecossistema Welon" <contato@welon.com.br>',
-    to: email,
+    to: 'alissonmorais.br@gmail.com',
     subject: 'Bem-vindo(a) ao Ecossistema Welon',
     html: `
       <div style="font-family: Arial, sans-serif; color:#062a5e; line-height:1.6">
@@ -77,4 +81,11 @@ module.exports = async ({ name, email }) => {
       </div>
     `
   })
+
+  console.log('📨 Email enviado')
+  console.log('MessageId:', info.messageId)
+  console.log('SMTP response:', info.response)
+
+  return info
 }
+
