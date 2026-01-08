@@ -120,9 +120,9 @@ async function register() {
   }
 }
 
-function showSuccess() {
+function showSuccess(name) {
   document.getElementById('successTitle').innerText =
-    `Bem-vindo(a), ${userName}`
+    `Bem-vindo(a), ${name}`
 
   setStep(3)
 }
@@ -132,20 +132,28 @@ async function acceptTerms() {
   setLoading(btn, true, 'Registrando aceite...')
 
   try {
-    await fetch(API.acceptTerms, {
+    const res = await fetch(API.acceptTerms, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ cpfCnpj: cpfGlobal })
     })
 
-    showSuccess()
+    if (!res.ok) {
+      throw new Error('Erro na API')
+    }
+
+    const data = await res.json()
+
+    showSuccess(data.name)
 
   } catch (err) {
+    console.error(err)
     alert('Erro ao salvar aceite.')
   } finally {
     setLoading(btn, false)
   }
 }
+
 
 const cpfCnpjInput = document.getElementById('cpfCnpj')
 

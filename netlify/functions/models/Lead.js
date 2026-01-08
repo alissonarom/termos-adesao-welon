@@ -9,9 +9,6 @@ const LeadSchema = new mongoose.Schema({
   acceptedTerms: { type: Boolean, default: false },
   acceptedAt: Date,
 
-  checkoutClickedAt: Date,
-  isPaid: { type: Boolean, default: false },
-
   isSendMail: { type: Boolean, default: false },
   sendMailAt: Date
 })
