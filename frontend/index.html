@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <link rel="icon" href="./assets/favicon-57x57.png" sizes="57x57">
-	<link rel="apple-touch-icon" href="./assets/genfavicon-180.png">
+	  <link rel="apple-touch-icon" href="./assets/genfavicon-180.png">
     <meta name="msapplication-TileImage" content="./assets/genfavicon-256.png">
     <meta charset="UTF-8" />
     <title>Termo de Adesão | Welon</title>
@@ -29,7 +29,7 @@
     <input id="name" placeholder="Nome ou Razão Social" />
     <input id="cpfCnpj" placeholder="CPF ou CNPJ" />
     <input id="email" placeholder="Email" />
-    <button onclick="register()">Cadastrar</button>
+    <button id="registerBtn" onclick="register()">Cadastrar</button>
   </section>
 
   <!-- ETAPA 2 -->
@@ -269,14 +269,14 @@
       <input type="checkbox" id="acceptTerms" size="40"/>
       <span>Li e aceito os termos</span>
     </label>
-    <button id="acceptBtn" disabled onclick="accept()">Avançar</button>
+    <button id="acceptBtn" disabled onclick="acceptTerms()">Avançar</button>
   </section>
 
   <!-- ETAPA 3 -->
   <section id="step-3" hidden>
     <h2>Cadastro concluído</h2>
     <p>Seu cadastro e aceite foram realizados com sucesso.</p>
-    <button id="checkoutBtn" onclick="checkout()">Ir para pagamento</button>
+    <button id="checkoutBtn" onclick="goToCheckout()">Ir para pagamento</button>
   </section>
 
 </main>
