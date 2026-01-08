@@ -22,14 +22,36 @@ function setLoading(button, isLoading, text = 'Carregando...') {
   }
 }
 
-function setStep(n) {
-  document.querySelectorAll('.step').forEach((s, i) =>
-    s.classList.toggle('active', i === n - 1)
-  )
-
+function setStep(step) {
+  // Mostra apenas a section atual
   document.querySelectorAll('section').forEach(s => (s.hidden = true))
-  document.getElementById(`step-${n}`).hidden = false
+  document.getElementById(`step-${step}`).hidden = false
+
+  // Progress bar
+  const progressBar = document.getElementById('progressBar')
+  const progressText = document.getElementById('progressText')
+
+  const totalSteps = 3
+
+  const progressMap = {
+    1: 33,
+    2: 66,
+    3: 100
+  }
+
+  progressBar.style.width = `${progressMap[step]}%`
+  progressText.innerText = `Etapa ${step} de ${totalSteps}`
+
+  // Pulse animation
+  progressBar.classList.remove('pulse')
+  void progressBar.offsetWidth // força reflow
+  progressBar.classList.add('pulse')
+
+  // Scroll suave para o topo ao trocar de etapa (mobile-friendly)
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
+
 
 async function register() {
   const btn = document.getElementById('registerBtn')

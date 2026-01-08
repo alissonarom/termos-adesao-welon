@@ -4,6 +4,7 @@
     <link rel="icon" href="./assets/favicon-57x57.png" sizes="57x57">
 	  <link rel="apple-touch-icon" href="./assets/genfavicon-180.png">
     <meta name="msapplication-TileImage" content="./assets/genfavicon-256.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8" />
     <title>Termo de Adesão | Welon</title>
     <link rel="stylesheet" href="style.css" />
@@ -16,14 +17,16 @@
 
 <main class="welon-container">
 
-  <!-- PROGRESS -->
-  <div class="progress">
-    <div class="step active">Cadastro</div>
-    <div class="step">Termo</div>
-    <div class="step">Sucesso</div>
+  <div class="progress-container">
+  <div class="progress-text" id="progressText">
+    Etapa 1 de 3
   </div>
 
-  <!-- ETAPA 1 -->
+  <div class="progress-bar-wrapper">
+    <div class="progress-bar-fill" id="progressBar"></div>
+  </div>
+</div>
+
   <section id="step-1">
     <h2>Cadastro</h2>
     <input id="name" placeholder="Nome ou Razão Social" />
@@ -253,7 +256,7 @@
     para dirimir eventuais controvérsias.
   </p>
 
-  <p><strong>Goiânia-GO, data da assinatura.</strong></p>
+  <p><strong>Goiânia-GO</strong></p>
 
   <p>
     <strong>WB PARTICIPAÇÕES LTDA</strong><br>
@@ -261,7 +264,7 @@
     CNPJ: 57.712.463/0001-01 – IE: 20.198.188-2
   </p>
 
-  <p><strong>PARTICIPANTE – ACEITE / ASSINATURA DIGITAL</strong></p>
+  <p><strong>PARTICIPANTE – ACEITE / ASSINATURA COLETADA DIGITALMENTE</strong></p>
 
     </div>
 
@@ -280,6 +283,30 @@
   </section>
 
 </main>
+		<footer class="welon-footer">
+  <div class="footer-separator"></div>
+
+  <div class="footer-content">
+    <!-- COPYRIGHT -->
+    <div class="footer-copy">
+      © Copyright 2026. Todos os direitos reservados.
+    </div>
+
+    <!-- SELOS -->
+    <div class="footer-seals">
+      <img src="./assets/selo1.png" alt="Site seguro">
+      <img src="./assets/selo2.png" alt="Site protegido">
+    </div>
+
+    <!-- DESENVOLVIDO POR -->
+    <div class="footer-dev">
+      <span>Developed by</span>
+      <a href="https://www.cronusia.com/" target="_blank" rel="noopener">
+        <img src="./assets/cronusia.png" alt="Cronusia">
+      </a>
+    </div>
+  </div>
+</footer>
 
 <script src="script.js"></script>
 </body>
