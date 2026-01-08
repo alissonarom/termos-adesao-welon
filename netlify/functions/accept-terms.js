@@ -1,6 +1,6 @@
 const connect = require('./db')
 const Lead = require('./models/Lead')
-const sendWelcomeEmail = require('./services/sendWelcomeMail')
+const sendWelcomeEmail = require('./services/sendWelcomeMail') // ✅ nome correto
 
 exports.handler = async event => {
   if (event.httpMethod !== 'POST') {
@@ -33,7 +33,7 @@ exports.handler = async event => {
     lead.acceptedAt = new Date()
     await lead.save()
 
-    // 🔥 RESPONDE IMEDIATAMENTE (UX)
+    // 🔥 RESPONDE IMEDIATAMENTE
     const response = {
       statusCode: 200,
       body: JSON.stringify({
@@ -43,7 +43,7 @@ exports.handler = async event => {
       })
     }
 
-    // ✉️ EMAIL CONTROLADO
+    // ✉️ Envio do email em background (não bloqueia a resposta)
     if (!lead.isSendMail) {
       sendWelcomeEmail(lead)
         .then(async () => {

@@ -1,25 +1,13 @@
-const nodemailer = require('nodemailer')
-
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  secure: Number(process.env.SMTP_PORT) === 465,
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS
-  },
-  connectionTimeout: 10_000,
-  greetingTimeout: 10_000,
-  socketTimeout: 10_000
-})
-
+const Resend = require('resend')
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 module.exports = async ({ name, email }) => {
-  const info = await transporter.sendMail({
-    from: '"Ecossistema Welon" <contato@welon.com.br>',
-    to: 'alissonmorais.br@gmail.com',
-    subject: 'Bem-vindo(a) ao Ecossistema Welon',
-    html: `
+  try {
+    const message = await resend.emails.send({
+      from: 'Ecossistema Welon <contato@welon.com.br>',
+      to: email,
+      subject: 'Bem-vindo(a) ao Ecossistema Welon',
+      html: `
       <div style="font-family: Arial, sans-serif; color:#062a5e; line-height:1.6">
         <h2>✨ Seja bem-vindo(a) ao <strong>Ecossistema Welon</strong> ✨</h2>
 
@@ -81,11 +69,8 @@ module.exports = async ({ name, email }) => {
       </div>
     `
   })
-
-  console.log('📨 Email enviado')
-  console.log('MessageId:', info.messageId)
-  console.log('SMTP response:', info.response)
-
-  return info
+    console.log('Email enviado com Resend:', message)
+  } catch (err) {
+    console.error('Erro ao enviar email com Resend:', err)
+  }
 }
-
