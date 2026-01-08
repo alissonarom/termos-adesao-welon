@@ -34,10 +34,11 @@ exports.handler = async event => {
   }
 
   return {
-    statusCode: 200,
-    body: JSON.stringify({
-      acceptedTerms: lead.acceptedTerms,
-      acceptedAt: lead.acceptedAt
-    })
-  }
+  statusCode: 200,
+  body: JSON.stringify({
+    acceptedTerms: lead.acceptedTerms,
+    acceptedAt: lead.acceptedAt,
+    name: lead.name
+  })
+}
 }

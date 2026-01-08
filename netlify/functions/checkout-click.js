@@ -1,22 +1,13 @@
-const connect = require('./db')
-const Lead = require('./models/Lead')
+const result = await Lead.findOneAndUpdate(
+  { cpfCnpj },
+  { checkoutClickedAt: new Date() },
+  { new: true }
+)
 
-exports.handler = async event => {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405 }
-  }
-
-  await connect()
-
-  const { cpfCnpj } = JSON.parse(event.body)
-
-  await Lead.updateOne(
-    { cpfCnpj },
-    { checkoutClickedAt: new Date() }
-  )
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ success: true })
-  }
+return {
+  statusCode: 200,
+  body: JSON.stringify({
+    success: true,
+    checkoutClickedAt: result.checkoutClickedAt
+  })
 }

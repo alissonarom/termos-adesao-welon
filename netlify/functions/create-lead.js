@@ -24,12 +24,11 @@ exports.handler = async event => {
       name,
       cpfCnpj,
       email,
+      acceptedTerms: false,
+      isPaid: false,
       registeredAt: new Date()
     })
   }
-
-  document.getElementById('welcomeName').innerText =
-    `Olá, ${lead.name}`
 
   return {
     statusCode: 200,
