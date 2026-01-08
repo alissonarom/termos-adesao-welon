@@ -364,3 +364,12 @@ button.loading {
   }
 
 }
+
+#step-3 p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+#step-3 h2 {
+  margin-bottom: 20px;
+}

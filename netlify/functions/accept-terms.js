@@ -1,5 +1,6 @@
 const connect = require('./db')
 const Lead = require('./models/Lead')
+const sendWelcomeMail = require('./services/sendWelcomeMail')
 
 exports.handler = async event => {
   if (event.httpMethod !== 'POST') {
@@ -10,21 +11,7 @@ exports.handler = async event => {
 
   const { cpfCnpj } = JSON.parse(event.body)
 
-  if (!cpfCnpj) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ error: 'cpfCnpj é obrigatório' })
-    }
-  }
-
-  const lead = await Lead.findOneAndUpdate(
-    { cpfCnpj },
-    {
-      acceptedTerms: true,
-      acceptedAt: new Date()
-    },
-    { new: true }
-  )
+  const lead = await Lead.findOne({ cpfCnpj })
 
   if (!lead) {
     return {
@@ -33,12 +20,28 @@ exports.handler = async event => {
     }
   }
 
+  // Atualiza aceite
+  lead.acceptedTerms = true
+  lead.acceptedAt = new Date()
+
+  // Envia email apenas uma vez
+  if (!lead.isSendMail) {
+    await sendWelcomeMail({
+      name: lead.name,
+      email: lead.email
+    })
+
+    lead.isSendMail = true
+    lead.sendMailAt = new Date()
+  }
+
+  await lead.save()
+
   return {
-  statusCode: 200,
-  body: JSON.stringify({
-    acceptedTerms: lead.acceptedTerms,
-    acceptedAt: lead.acceptedAt,
-    name: lead.name
-  })
-}
+    statusCode: 200,
+    body: JSON.stringify({
+      success: true,
+      isSendMail: lead.isSendMail
+    })
+  }
 }

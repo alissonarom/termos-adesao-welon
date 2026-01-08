@@ -61,6 +61,7 @@ async function register() {
   const email = document.getElementById('email').value.trim()
   const cpfCnpjRaw = document.getElementById('cpfCnpj').value
   const cpfCnpj = cpfCnpjRaw.replace(/\D/g, '')
+  let userName = ''
 
   // VALIDAÇÕES
   if (!isValidName(name)) {
@@ -107,9 +108,10 @@ async function register() {
     if (data.name) {
       document.getElementById('welcomeName').innerText =
         `Olá, ${data.name}`
+      userName = data.name
     }
 
-    data.acceptedTerms ? setStep(3) : setStep(2)
+    data.acceptedTerms ? showSuccess() : setStep(2)
 
   } catch (err) {
     alert('Erro ao cadastrar. Tente novamente.')
@@ -118,9 +120,16 @@ async function register() {
   }
 }
 
+function showSuccess() {
+  document.getElementById('successTitle').innerText =
+    `Bem-vindo(a), ${userName}`
+
+  setStep(3)
+}
+
 async function acceptTerms() {
   const btn = document.getElementById('acceptBtn')
-  setLoading(btn, true, 'Salvando aceite...')
+  setLoading(btn, true, 'Registrando aceite...')
 
   try {
     await fetch(API.acceptTerms, {
@@ -129,7 +138,7 @@ async function acceptTerms() {
       body: JSON.stringify({ cpfCnpj: cpfGlobal })
     })
 
-    setStep(3)
+    showSuccess()
 
   } catch (err) {
     alert('Erro ao salvar aceite.')
@@ -196,7 +205,6 @@ cpfCnpjInput.addEventListener('input', e => {
 
   e.target.value = value
 })
-
 
 function isValidCPF(cpf) {
   cpf = cpf.replace(/\D/g, '')
