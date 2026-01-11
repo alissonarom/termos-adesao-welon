@@ -45,19 +45,22 @@ exports.handler = async event => {
 
     // ✉️ Envio do email em background (não bloqueia a resposta)
     if (!lead.isSendMail) {
-      sendWelcomeEmail(lead)
-        .then(async () => {
-          lead.isSendMail = true
-          lead.mailSentAt = new Date()
-          lead.mailError = null
-          await lead.save()
-        })
-        .catch(async err => {
-          console.error('Erro ao enviar email:', err.message)
-          lead.mailError = err.message
-          await lead.save()
-        })
-    }
+  try {
+    // Adicionamos o await aqui para a função não fechar antes do envio
+    await sendWelcomeEmail(lead) 
+    
+    lead.isSendMail = true
+    lead.mailSentAt = new Date()
+    lead.mailError = null
+    await lead.save()
+    console.log('E-mail enviado e log gravado no banco')
+  } catch (err) {
+    console.error('Erro ao enviar email:', err.message)
+    lead.mailError = err.message
+    await lead.save()
+    // Mesmo se o email falhar, o aceite foi gravado, então prosseguimos
+  }
+}
 
     return response
 
