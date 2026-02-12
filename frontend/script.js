@@ -61,9 +61,7 @@ async function register() {
   const email = document.getElementById('email').value.trim()
   const instagram = document.getElementById('instagram').value.trim()
   const whatsapp = document.getElementById('whatsapp').value.trim()
-  const cpfCnpjRaw = document.getElementById('cpfCnpj').value
-  const cpfCnpj = cpfCnpjRaw
-  let userName = ''
+  const cpfCnpj = document.getElementById('cpfCnpj').value
 
   // VALIDAÇÕES
   if (!isValidName(name)) {
