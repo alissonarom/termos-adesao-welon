@@ -84,24 +84,29 @@ async function register() {
     return
   }
 
-  if (cpfCnpj.length <= 11) {
-    if (!isValidCPF(cpfCnpj)) {
-      alert('CPF inválido.')
-      return
-    }
-  } else {
-    if (!isValidCNPJ(cpfCnpj)) {
-      alert('CNPJ inválido.')
-      return
-    }
+  const cpfCnpjNumbers = cpfCnpj.replace(/\D/g, '')
+
+if (cpfCnpjNumbers.length === 11) {
+  if (!isValidCPF(cpfCnpjNumbers)) {
+    alert('CPF inválido.')
+    return
   }
+} else if (cpfCnpjNumbers.length === 14) {
+  if (!isValidCNPJ(cpfCnpjNumbers)) {
+    alert('CNPJ inválido.')
+    return
+  }
+} else {
+  alert('CPF ou CNPJ incompleto.')
+  return
+}
 
   setLoading(btn, true, 'Cadastrando...')
 
   try {
     const nameValue = document.getElementById('name').value
     const emailValue = document.getElementById('email').value
-    cpfGlobal = document.getElementById('cpfCnpj')
+    cpfGlobal = document.getElementById('cpfCnpj').value
     const instagramValue = document.getElementById('instagram').value.trim()
     const whatsappValue = document.getElementById('whatsapp').value.trim()
 
@@ -170,13 +175,14 @@ function showSuccess(name) {
 
 async function acceptTerms() {
   const btn = document.getElementById('acceptBtn')
+  const cpfValue = document.getElementById('cpfCnpj').value
   setLoading(btn, true, 'Registrando aceite...')
 
   try {
     const res = await fetch(API.acceptTerms, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ cpfCnpj: cpfGlobal })
+      body: JSON.stringify({ cpfCnpj: cpfValue })
     })
 
     if (!res.ok) {
