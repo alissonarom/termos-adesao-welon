@@ -19,18 +19,27 @@ exports.handler = async event => {
 
   let lead = await Lead.findOne({ cpfCnpj })
 
-  if (!lead) {
-    lead = await Lead.create({
-      name,
-      cpfCnpj,
-      email,
-      instagram,
-      whatsapp,
-      acceptedTerms: false,
-      isPaid: false,
-      registeredAt: new Date()
-    })
-  }
+if (!lead) {
+  lead = await Lead.create({
+    name,
+    cpfCnpj,
+    email,
+    instagram,
+    whatsapp,
+    acceptedTerms: false,
+    isPaid: false,
+    registeredAt: new Date()
+  })
+} else {
+  // 🔥 Atualiza os novos campos se estiverem vazios
+  if (!lead.instagram) lead.instagram = instagram
+  if (!lead.whatsapp) lead.whatsapp = whatsapp
+  if (!lead.email) lead.email = email
+  if (!lead.name) lead.name = name
+
+  await lead.save()
+}
+
 
   return {
     statusCode: 200,

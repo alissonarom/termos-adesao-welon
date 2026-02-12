@@ -103,7 +103,9 @@ async function register() {
   try {
     const nameValue = document.getElementById('name').value
     const emailValue = document.getElementById('email').value
-    cpfGlobal = document.getElementById('cpfCnpj').value
+    cpfGlobal = document.getElementById('cpfCnpj').value.replace(/\D/g, '')
+    const instagramValue = document.getElementById('instagram').value.trim()
+    const whatsappValue = document.getElementById('whatsapp').value.trim()
 
     const res = await fetch(API.createLead, {
       method: 'POST',
@@ -111,16 +113,45 @@ async function register() {
       body: JSON.stringify({
         name: nameValue,
         cpfCnpj: cpfGlobal,
-        email: emailValue
+        email: emailValue,
+        instagram: instagramValue,
+        whatsapp: whatsappValue
       })
     })
 
     const data = await res.json()
 
+    if (data.instagram) {
+      document.getElementById('instagram').value = data.instagram
+    }
+
+    if (data.whatsapp) {
+      document.getElementById('whatsapp').value = data.whatsapp
+    }
+
     if (data.name) {
       document.getElementById('welcomeName').innerText =
         `Olá, ${data.name}`
       userName = data.name
+    }
+
+    if (data.acceptedTerms) {
+
+      // Bloqueia campos já preenchidos
+      document.getElementById('name').disabled = true
+      document.getElementById('email').disabled = true
+      document.getElementById('cpfCnpj').disabled = true
+
+      if (data.instagram) {
+        document.getElementById('instagram').disabled = true
+      }
+    
+      if (data.whatsapp) {
+        document.getElementById('whatsapp').disabled = true
+      }
+    
+      showSuccess(data.name)
+      return
     }
 
     data.acceptedTerms ? showSuccess() : setStep(2)
