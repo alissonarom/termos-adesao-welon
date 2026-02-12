@@ -62,7 +62,7 @@ async function register() {
   const instagram = document.getElementById('instagram').value.trim()
   const whatsapp = document.getElementById('whatsapp').value.trim()
   const cpfCnpjRaw = document.getElementById('cpfCnpj').value
-  const cpfCnpj = cpfCnpjRaw.replace(/\D/g, '')
+  const cpfCnpj = cpfCnpjRaw
   let userName = ''
 
   // VALIDAÇÕES
@@ -103,7 +103,7 @@ async function register() {
   try {
     const nameValue = document.getElementById('name').value
     const emailValue = document.getElementById('email').value
-    cpfGlobal = document.getElementById('cpfCnpj').value.replace(/\D/g, '')
+    cpfGlobal = document.getElementById('cpfCnpj')
     const instagramValue = document.getElementById('instagram').value.trim()
     const whatsappValue = document.getElementById('whatsapp').value.trim()
 
