@@ -8,12 +8,12 @@ exports.handler = async event => {
 
   await connect()
 
-  const { name, cpfCnpj, email } = JSON.parse(event.body)
+  const { name, cpfCnpj, email, instagram, whatsapp } = JSON.parse(event.body)
 
-  if (!cpfCnpj || !email) {
+  if (!cpfCnpj || !email || !instagram || !whatsapp) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ error: 'cpfCnpj e email são obrigatórios' })
+      body: JSON.stringify({ error: 'cpfCnpj, email, instagram e whatsapp são obrigatórios' })
     }
   }
 
@@ -24,6 +24,8 @@ exports.handler = async event => {
       name,
       cpfCnpj,
       email,
+      instagram,
+      whatsapp,
       acceptedTerms: false,
       isPaid: false,
       registeredAt: new Date()
@@ -37,7 +39,9 @@ exports.handler = async event => {
       cpfCnpj: lead.cpfCnpj,
       email: lead.email,
       acceptedTerms: lead.acceptedTerms,
-      isPaid: lead.isPaid
+      isPaid: lead.isPaid,
+      instagram: lead.instagram,
+      whatsapp: lead.whatsapp
     })
   }
 }

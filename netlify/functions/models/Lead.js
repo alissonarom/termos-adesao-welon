@@ -11,7 +11,10 @@ const LeadSchema = new mongoose.Schema({
 
   isSendMail: { type: Boolean, default: false },
   mailSentAt: Date,
-  mailError: String
+  mailError: String,
+
+  instagram: String,
+  whatsapp: String
 })
 
   module.exports =

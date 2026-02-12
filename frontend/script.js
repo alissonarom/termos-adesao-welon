@@ -59,6 +59,8 @@ async function register() {
   const btn = document.getElementById('registerBtn')
   const name = document.getElementById('name').value.trim()
   const email = document.getElementById('email').value.trim()
+  const instagram = document.getElementById('instagram').value.trim()
+  const whatsapp = document.getElementById('whatsapp').value.trim()
   const cpfCnpjRaw = document.getElementById('cpfCnpj').value
   const cpfCnpj = cpfCnpjRaw.replace(/\D/g, '')
   let userName = ''
@@ -71,6 +73,16 @@ async function register() {
 
   if (!isValidEmail(email)) {
     alert('Informe um e-mail válido.')
+    return
+  }
+
+  if (whatsapp.length <= 1) {
+    alert('Informe um whatsapp')
+    return
+  }
+
+  if (instagram.length <= 1) {
+    alert('Informe um instagram')
     return
   }
 
@@ -153,7 +165,6 @@ async function acceptTerms() {
     setLoading(btn, false)
   }
 }
-
 
 const cpfCnpjInput = document.getElementById('cpfCnpj')
 
